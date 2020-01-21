@@ -1,12 +1,22 @@
 (ns authorizer.controllers
   (:require [schema.core :as s]
-            [authorizer.logic :as logic]
-            [authorizer.data :as data]))
+            [authorizer
+             [logic :as logic]
+             [data :as data]
+             [schema :refer [Map Account Transaction]]]))
 
 (s/defn create-account!
-  [operation]
-  (assoc operation :violations []))
+  [account-atom :- (s/atom Map)
+   {{:keys [active-card available-limit]} :account} :- Account]
+  (let [account (logic/create-account @account-atom active-card available-limit)]
+    (if (not (contains? account :violations))
+      (data/update! account-atom account))
+    account))
 
 (s/defn authorize-transaction!
-  [operation]
-  {:account {:active-card true, :available-limit 80}, :violations [:insufficient-limit]})
+  [account-atom :- (s/atom Map)
+   transaction :- Transaction]
+  (let [account (logic/authorize-transaction @account-atom transaction)]
+    (if (not (contains? account :violations))
+      (data/update! account-atom account))
+    account))

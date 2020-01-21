@@ -5,4 +5,7 @@
                  [cheshire "5.9.0"]]
   :main ^:skip-aot authorizer.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:dev {:dependencies [[midje "1.9.9"]]}
+             :uberjar {:aot :all}}
+  :plugins [[lein-cljfmt "0.6.6"]
+            [lein-midje "3.2.2"]])
