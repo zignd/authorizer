@@ -22,3 +22,10 @@
                  ;; TODO: use a coercer
                  ;; :time Date
                  :time s/Str}})
+
+(def ValidationFn (s/make-fn-schema (s/maybe s/Keyword) [[Account Transaction]]))
+
+(s/defschema Validation {:type (s/enum :account :account-and-transaction)
+                         :rule ValidationFn})
+
+(s/defschema Validations [Validation])
