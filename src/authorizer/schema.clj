@@ -6,22 +6,32 @@
   "Schema for a map"
   (s/pred map?))
 
+(s/defschema Transaction
+  "A transaction is a type of operation that occurs on an Account"
+  {:merchant s/Str
+   :amount s/Int
+   :time s/Str})
+
 (s/defschema Account
   "An account as in the form persisted in the atom"
+  {:active-card s/Bool
+   :available-limit s/Int
+   :initialized s/Bool
+   :history [Transaction]})
+
+(s/defschema TransactionPublic
+  {:transaction Transaction})
+
+(s/defschema AccountPublic
   {:account {:active-card s/Bool
              :available-limit s/Int}})
 
 (def OperationResult
-  "The result of an operation"
-  (assoc Account (s/optional-key :violations) [s/Keyword]))
+  {:account Account
+   (s/optional-key :violations) [s/Keyword]})
 
-(s/defschema Transaction
-  "A transaction is a type of operation that occurs on an Account"
-  {:transaction {:merchant s/Str
-                 :amount s/Int
-                 ;; TODO: use a coercer
-                 ;; :time Date
-                 :time s/Str}})
+(def OperationResultPublic
+  (assoc AccountPublic (s/optional-key :violations) [s/Keyword]))
 
 (def ValidationFn (s/make-fn-schema (s/maybe s/Keyword) [[Account Transaction]]))
 

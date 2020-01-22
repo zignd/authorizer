@@ -1,12 +1,15 @@
 (ns authorizer.data
   (:require [schema.core :as s]
-            [authorizer.schema :refer [Map]]))
+            [authorizer.schema :refer [Account]]))
 
-(s/defn initialize! :- (s/atom Map)
+(s/defn initialize! :- (s/atom Account)
   []
-  (atom {}))
+  (atom {:active-card false
+         :available-limit 0
+         :initialized false
+         :history []}))
 
 (s/defn update!
-  [a :- (s/atom Map)
-   account :- Map]
+  [a :- (s/atom Account)
+   account :- Account]
   (reset! a account))

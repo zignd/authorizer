@@ -1,29 +1,29 @@
 (ns authorizer.logic.rules
   (:require [schema.core :as s]
-            [authorizer.schema :refer [Map Account Transaction]]))
+            [authorizer.schema :refer [Account Transaction]]))
 
 (s/defn validate-account-not-initialized :- (s/maybe s/Keyword)
   "No transaction should be accepted without a properly initialized account"
-  [account :- {(s/optional-key :account) Map}]
-  (if (s/check Account account)
+  [account :- Account]
+  (if (not (:initialized account))
     :account-not-initialized))
 
 (s/defn validate-account-already-initialized :- (s/maybe s/Keyword)
   "There can't be more than one account initialization operation"
-  [account :- {(s/optional-key :account) Map}]
+  [account :- Account]
   (if (not (validate-account-not-initialized account))
     :account-already-initialized))
 
 (s/defn validate-card-not-active :- (s/maybe s/Keyword)
   "No transaction should be accepted when the card is not active"
-  [{{:keys [active-card]} :account} :- Account]
+  [{:keys [active-card]} :- Account]
   (if (not active-card)
     :card-not-active))
 
 (s/defn validate-insufficient-limit :- (s/maybe s/Keyword)
   "The transaction amount should not exceed available limit"
-  [{{:keys [available-limit]} :account} :- Account
-   {{:keys [amount]} :transaction} :- Transaction]
+  [{:keys [available-limit]} :- Account
+   {:keys [amount]} :- Transaction]
   (if (> amount available-limit)
     :insufficient-limit))
 
