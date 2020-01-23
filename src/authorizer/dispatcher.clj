@@ -4,7 +4,7 @@
              [controllers :as controllers]
              [adapters :as adapters]
              [data :as data]
-             [schema :refer [Map]]])
+             [schema :refer [Account]]])
   (:import [java.io BufferedReader Reader]))
 
 (s/defn ^:private resolve-controller :- (s/pred ifn?)
@@ -15,7 +15,7 @@
     :else (throw (ex-info "Invalid operation type" {:operation operation}))))
 
 (s/defn dispatch-line!
-  [account-atom :- (s/atom Map)
+  [account-atom :- (s/atom Account)
    line :- s/Str]
   (-> line
       (adapters/from-json-to-map)

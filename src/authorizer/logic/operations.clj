@@ -1,8 +1,9 @@
 (ns authorizer.logic.operations
   (:require [schema.core :as s]
-            [authorizer.schema :refer [Account Transaction OperationResult Validation Validations]]
-            [authorizer.logic.helpers :refer [validate op-res op-res-with-violation]]
-            [authorizer.logic.rules :as rules]))
+            [authorizer.schema :refer [Account Transaction OperationResult Validations]]
+            [authorizer.logic
+             [helpers :refer [validate op-res op-res-with-violation]]
+             [rules :as rules]]))
 
 (s/def validations :- Validations
   [{:type :account-and-transaction

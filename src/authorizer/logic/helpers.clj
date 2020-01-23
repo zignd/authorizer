@@ -15,8 +15,8 @@
    transaction :- Transaction
    validations :- Validations]
   (if-let [validation (and (> (count validations) 0) (peek validations))]
-    (if-let [error (invoke-validation account transaction validation)]
-      error
+    (if-let [violation (invoke-validation account transaction validation)]
+      violation
       (recur account transaction (pop validations)))))
 
 (s/defn op-res :- OperationResult

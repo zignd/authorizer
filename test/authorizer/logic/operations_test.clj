@@ -31,7 +31,7 @@
                                                                           :history [fxt/transaction-uber
                                                                                     fxt/transaction-99-taxi
                                                                                     fxt/transaction-99-taxi]}})
-       
+
        (fact "Should fail because no transaction should be accepted without a properly initialized account"
              (operations/authorize-transaction
               fxt/account-not-initialized fxt/transaction-99-taxi) => {:account fxt/account-not-initialized

@@ -2,10 +2,6 @@
   (:require [schema.core :as s])
   (:import [java.util Date]))
 
-(def Map
-  "Schema for a map"
-  (s/pred map?))
-
 (s/defschema Transaction
   "A transaction is a type of operation that occurs on an Account"
   {:merchant s/Str
@@ -32,6 +28,12 @@
 
 (def PublicOperationResult
   (assoc PublicAccount (s/optional-key :violations) [s/Keyword]))
+
+(s/defn OperationResult->PublicOperationResult :- PublicOperationResult
+  [result :- OperationResult]
+  (-> result
+      (update-in [:account] dissoc :initialized)
+      (update-in [:account] dissoc :history)))
 
 (def ValidationFn (s/make-fn-schema (s/maybe s/Keyword) [[Account Transaction]]))
 
