@@ -1,6 +1,7 @@
 (ns authorizer.fixtures
   (:require [schema.core :as s]
-            [authorizer.schema :refer [Account PublicAccount Transaction PublicTransaction]]))
+            [authorizer.schema :refer [Account PublicAccount Transaction PublicTransaction]])
+  (:import [java.time OffsetDateTime]))
 
 (s/def account-not-initialized :- Account
   {:active-card false
@@ -27,23 +28,29 @@
 (s/def transaction-uber :- Transaction
   {:merchant "Uber"
    :amount 20
-   :time "2019-02-13T10:00:00.000Z"})
+   :time (OffsetDateTime/parse "2019-02-13T10:00:00.000Z")})
 
 (s/def transaction-99-taxi :- Transaction
   {:merchant "99 Taxi"
    :amount 15
-   :time "2019-02-13T11:00:00.000Z"})
+   :time (OffsetDateTime/parse "2019-02-13T11:00:00.000Z")})
 
 (s/def transaction-vivara :- Transaction
   {:merchant "Vivara"
    :amount 1500
-   :time "2019-02-13T15:00:00.000Z"})
+   :time (OffsetDateTime/parse "2019-02-13T15:00:00.000Z")})
 
 (s/def public-transaction-uber :- PublicTransaction
-  {:transaction transaction-uber})
+  {:transaction {:merchant "Uber"
+                 :amount 20
+                 :time "2019-02-13T10:00:00.000Z"}})
 
 (s/def public-transaction-99-taxi :- PublicTransaction
-  {:transaction transaction-99-taxi})
+  {:transaction {:merchant "99 Taxi"
+                 :amount 15
+                 :time "2019-02-13T11:00:00.000Z"}})
 
 (s/def public-transaction-vivara :- PublicTransaction
-  {:transaction transaction-vivara})
+  {:transaction {:merchant "Vivara"
+                 :amount 1500
+                 :time "2019-02-13T15:00:00.000Z"}})

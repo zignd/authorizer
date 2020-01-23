@@ -2,7 +2,8 @@
   :description "Code Challenge: Authorizer"
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [prismatic/schema "1.1.12"]
-                 [cheshire "5.9.0"]]
+                 [cheshire "5.9.0"]
+                 [clojure.java-time "0.3.2"]]
   :main ^:skip-aot authorizer.core
   :target-path "target/%s"
   :profiles {:dev {:dependencies [[midje "1.9.9"]]}

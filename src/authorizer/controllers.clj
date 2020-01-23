@@ -3,7 +3,8 @@
             [authorizer
              [data :as data]
              [schema :refer [Account PublicAccount PublicTransaction PublicOperationResult
-                             OperationResult->PublicOperationResult]]]
+                             OperationResult->PublicOperationResult
+                             PublicTransaction->Transaction]]]
             [authorizer.logic.operations :as operations]))
 
 (s/defn create-account! :- PublicOperationResult
@@ -17,7 +18,9 @@
 (s/defn authorize-transaction! :- PublicOperationResult
   [account-atom :- (s/atom Account)
    transaction :- PublicTransaction]
-  (let [result (operations/authorize-transaction @account-atom (:transaction transaction))]
+  (let [result (->> transaction
+                    (PublicTransaction->Transaction)
+                    (operations/authorize-transaction @account-atom))]
     (when (not (contains? result :violations))
       (data/update! account-atom (:account result)))
     (OperationResult->PublicOperationResult result)))
