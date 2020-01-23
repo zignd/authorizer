@@ -2,12 +2,15 @@
   (:require [schema.core :as s]
             [authorizer
              [data :as data]
-             [schema :refer [Account AccountPublic TransactionPublic OperationResult]]]
+             [schema :refer [Account PublicAccount PublicTransaction OperationResult OperationResult]]]
             [authorizer.logic.operations :as operations]))
+
+(s/defn hide-internal-info
+  [result :- OperationResult])
 
 (s/defn create-account! :- OperationResult
   [account-atom :- (s/atom Account)
-   {{:keys [active-card available-limit]} :account} :- AccountPublic]
+   {{:keys [active-card available-limit]} :account} :- PublicAccount]
   (let [result (operations/create-account @account-atom active-card available-limit)]
     (when (not (contains? result :violations))
       (data/update! account-atom (:account result)))
@@ -19,7 +22,7 @@
 
 (s/defn authorize-transaction! :- OperationResult
   [account-atom :- (s/atom Account)
-   transaction :- TransactionPublic]
+   transaction :- PublicTransaction]
   (let [result (operations/authorize-transaction @account-atom (:transaction transaction))]
     (when (not (contains? result :violations))
       (data/update! account-atom (:account result)))

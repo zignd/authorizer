@@ -1,6 +1,6 @@
 (ns authorizer.fixtures
   (:require [schema.core :as s]
-            [authorizer.schema :refer [Account AccountPublic Transaction TransactionPublic]]))
+            [authorizer.schema :refer [Account PublicAccount Transaction PublicTransaction]]))
 
 (s/def account-not-initialized :- Account
   {:active-card false
@@ -20,7 +20,7 @@
    :initialized true
    :history []})
 
-(s/def public-account :- AccountPublic
+(s/def public-account :- PublicAccount
   {:account {:active-card true
              :available-limit 100}})
 
@@ -39,11 +39,11 @@
    :amount 1500
    :time "2019-02-13T15:00:00.000Z"})
 
-(s/def public-transaction-uber :- TransactionPublic
+(s/def public-transaction-uber :- PublicTransaction
   {:transaction transaction-uber})
 
-(s/def public-transaction-99-taxi :- TransactionPublic
+(s/def public-transaction-99-taxi :- PublicTransaction
   {:transaction transaction-99-taxi})
 
-(s/def public-transaction-vivara :- TransactionPublic
+(s/def public-transaction-vivara :- PublicTransaction
   {:transaction transaction-vivara})

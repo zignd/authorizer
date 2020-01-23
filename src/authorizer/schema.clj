@@ -19,10 +19,10 @@
    :initialized s/Bool
    :history [Transaction]})
 
-(s/defschema TransactionPublic
+(s/defschema PublicTransaction
   {:transaction Transaction})
 
-(s/defschema AccountPublic
+(s/defschema PublicAccount
   {:account {:active-card s/Bool
              :available-limit s/Int}})
 
@@ -30,8 +30,8 @@
   {:account Account
    (s/optional-key :violations) [s/Keyword]})
 
-(def OperationResultPublic
-  (assoc AccountPublic (s/optional-key :violations) [s/Keyword]))
+(def PublicOperationResult
+  (assoc PublicAccount (s/optional-key :violations) [s/Keyword]))
 
 (def ValidationFn (s/make-fn-schema (s/maybe s/Keyword) [[Account Transaction]]))
 
