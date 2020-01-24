@@ -57,4 +57,4 @@ To try other operations, check the `testing-operations` directory, and change th
 
 You can run the tests using Leinigen:
 
-    $ lein test
+    $ lein midje
