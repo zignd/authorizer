@@ -18,6 +18,7 @@
     :rule rules/validate-account-not-initialized}])
 
 (s/defn create-account :- OperationResult
+  "Operation for the creation of an account."
   [account :- Account
    active-card :- s/Bool
    available-limit :- s/Int]
@@ -30,6 +31,7 @@
         (op-res))))
 
 (s/defn authorize-transaction :- OperationResult
+  "Operation for the authorization of a transaction on an account."
   [account :- Account
    transaction :- Transaction]
   (if-let [violation (validate account transaction validations)]

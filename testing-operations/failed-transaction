@@ -1,0 +1,4 @@
+{"account": {"active-card": true, "available-limit": 100}}
+{"transaction": {"merchant": "Burger King", "amount": 20, "time": "2019-02-13T10:30:00.000Z"}}
+{"transaction": {"merchant": "Mc Donald's", "amount": 25, "time": "2019-02-13T10:31:00.000Z"}}
+{"transaction": {"merchant": "Mc Donald's", "amount": 25, "time": "2019-02-13T10:33:00.000Z"}}

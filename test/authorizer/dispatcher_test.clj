@@ -13,7 +13,7 @@
              => "{\"account\":{\"active-card\":true,\"available-limit\":100}}
 {\"account\":{\"active-card\":true,\"available-limit\":80}}
 {\"account\":{\"active-card\":true,\"available-limit\":55}}\n")
-       
+
        (fact "Should fail to decode invalid JSON from the STDIN returning something which should not expose the internals of the application"
              (with-out-str
                (with-in-str "totally not JSON"

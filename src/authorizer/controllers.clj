@@ -8,6 +8,7 @@
             [authorizer.logic.operations :as operations]))
 
 (s/defn create-account! :- PublicOperationResult
+  "Creates an account and persists the operation in the provided atom."
   [account-atom :- (s/atom Account)
    {{:keys [active-card available-limit]} :account} :- PublicAccount]
   (let [result (operations/create-account @account-atom active-card available-limit)]
@@ -16,6 +17,7 @@
     (OperationResult->PublicOperationResult result)))
 
 (s/defn authorize-transaction! :- PublicOperationResult
+  "Authorizes a transaction and persists the operation in the provided atom."
   [account-atom :- (s/atom Account)
    transaction :- PublicTransaction]
   (let [result (->> transaction

@@ -42,7 +42,7 @@
                                  :initialized true
                                  :history [fxt/transaction-uber
                                            fxt/transaction-99-taxi]}))
-       
+
        (fact "Should fail returning a violation and the account should not be affected"
              (let [account-atom (data/initialize!)]
                (controllers/create-account! account-atom fxt/public-account)
